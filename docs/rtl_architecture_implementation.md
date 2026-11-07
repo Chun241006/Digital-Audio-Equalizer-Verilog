@@ -84,7 +84,11 @@ The testbench reads input samples from `data/input_samples.mem` and expected out
 
 The verification covers continuous input samples, inserted valid gaps, and reset recovery.
 
-All three gain inputs were configured to unity gain (Q8.8 = 256).
+The original testbench uses unity gain (Q8.8 = 256) for all three bands.
+
+A separate gain verification testbench evaluates seven fixed gain
+configurations, including isolated bands, mute, fractional gains,
+negative Bass gain, and high gains.
 
 ## 4. Simulation Results
 
@@ -94,6 +98,27 @@ All three gain inputs were configured to unity gain (Q8.8 = 256).
 | Valid gaps | 1010 | 0 | PASS |
 | Reset recovery | 1 | 0 | PASS |
 | **Total** | **2021** | **0** | **PASS** |
+
+
+### Additional Gain Verification
+
+A separate ModelSim testbench (`tb/tb_gain_verification.v`) was executed on November 7, 2026.
+
+| Gain Configuration | Comparisons | Mismatches | Result |
+|---|---:|---:|---|
+| Bass only | 1010 | 0 | PASS |
+| Mid only | 1010 | 0 | PASS |
+| Treble only | 1010 | 0 | PASS |
+| Mute all | 1010 | 0 | PASS |
+| Fractional gains | 1010 | 0 | PASS |
+| Negative Bass gain | 1010 | 0 | PASS |
+| High gains | 1010 | 0 | PASS |
+| **Total** | **7070** | **0** | **PASS** |
+
+Together with the original verification, the project has 9091 recorded comparisons with zero mismatches.
+
+The additional results are stored in `simulation/results/gain_test_results.txt`.
+
 
 RTL compilation completed with zero errors and zero warnings.
 
@@ -113,4 +138,7 @@ All 2021 compared output samples matched the expected results, with zero mismatc
 
 The tested implementation correctly handled continuous valid inputs, inserted valid gaps, and reset recovery under unity-gain conditions.
 
-Additional verification with non-unity gains and further boundary-value scenarios would improve overall test coverage.
+The additional gain verification passed all seven fixed gain configurations.
+
+Dynamic gain changes during active sample processing and exhaustive
+boundary-value combinations remain future verification work.

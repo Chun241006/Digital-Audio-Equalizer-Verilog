@@ -57,11 +57,10 @@ Project Duration: Week 5 - Week 7
 | Member 3 | Write verification report section | TODO |
 
 ## 4. Week 7 - Submission
-
 - Final project review
 - Report submission
 - Verify final report and submission files
-- Demonstration
+- Final GitHub repository check
 
 ## 5. Status Definitions
 
@@ -118,9 +117,10 @@ The weekly tables above represent the original project plan. The following table
 | Gain verification | PASS | 7070 comparisons, 0 errors |
 | Verification diagrams | DONE | docs/diagrams/ and diagrams/ |
 | Project report draft | DONE | docs/REPORT_DRAFT.md |
-| Final report review | IN PROGRESS | Documentation review |
+| Final report review | DONE | Final DOCX report reviewed and corrected |
 | Diagram PNG files | DONE | docs/diagram/, docs/diagrams/, diagrams/ |
 | Final report DOCX | DONE | docs/DGT302_Final_Report.docx |
+| Final report PDF | DONE | docs/DGT302_Final_Report.pdf |
 | Physical FPGA implementation | NOT IN SCOPE | RTL simulation project |
 
 The two recorded ModelSim verification runs contain 9091 comparisons with zero mismatches.

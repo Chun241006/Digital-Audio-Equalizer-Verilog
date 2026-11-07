@@ -221,8 +221,13 @@ The Testbench performs the following steps:
 6. Count mismatches and report PASS or FAIL.
 7. Save the comparison results and simulation logs.
 
-The current tests use unity gain (256 in Q8.8)
+The original testbench uses unity gain (256 in Q8.8)
 for all three frequency bands.
+
+A separate gain verification testbench tests seven
+fixed gain configurations: Bass only, Mid only,
+Treble only, mute, fractional gains, negative Bass
+gain, and high gains.
 
 The outputs are compared as signed 16-bit
 fixed-point values.
@@ -252,10 +257,18 @@ history and output registers are cleared.
 All 2021 compared samples matched the
 Golden Model reference data.
 
-The current verification is limited to
-unity-gain operation. Additional gain values,
-clipping cases, and more boundary conditions
-can be tested in future work.
+The original verification completed 2021 comparisons
+with zero mismatches under unity-gain conditions.
+
+Additional gain verification completed 7070 comparisons
+across seven fixed gain configurations, with zero mismatches.
+
+The combined verification evidence contains 9091
+comparisons with zero mismatches.
+
+Dynamic gain changes during active sample processing
+and exhaustive boundary-value combinations remain
+outside the current verification coverage.
 
 The saved simulation results are located in
 `simulation/results/`.

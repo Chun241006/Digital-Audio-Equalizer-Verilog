@@ -328,6 +328,20 @@ dsp/plots/
 └── treble_response.png
 ```
 
+### Generate Input Test Samples
+
+The input test samples are generated using:
+
+```powershell
+python dsp/test_data.py
+```
+
+The script generates 1010 signed 16-bit samples, including zero input, 100 Hz, 1 kHz, 8 kHz, and mixed-frequency signals.
+
+The generated samples are stored in `data/input_samples.mem`.
+
+Run this script only when the input dataset needs to be regenerated, since it overwrites the existing input file.
+
 ### Step 3 — Generate Expected Output
 
 ```powershell
@@ -365,7 +379,14 @@ The testbench uses the generated input and expected output files to check the RT
 
 ## 9. Verification Test Plan
 
-The following table lists verification scenarios, including additional tests planned for future coverage:
+The following table summarizes the verification scenarios,
+including completed tests and additional scenarios for
+future coverage.
+
+The original testbench covers continuous samples, valid gaps,
+and reset recovery. A separate testbench verifies seven fixed
+gain configurations. Randomized gain combinations and dynamic
+gain changes remain outside the current verification coverage.
 
 | Test Case | Verification Purpose |
 |---|---|
@@ -441,7 +462,9 @@ Potential future improvements include:
 Additional project documentation:
 
 - [Project Specification](docs/PROJECT_SPECIFICATION.md)
-- [Project Report](docs/REPORT_DRAFT.md)
+- [Final Project Report (DOCX)](docs/DGT302_Final_Report.docx)
+- [Final Project Report (PDF)](docs/DGT302_Final_Report.pdf)
+- [Report Markdown Source](docs/REPORT_DRAFT.md)
 - [Verification Documentation](Verification.md)
 
 ---
