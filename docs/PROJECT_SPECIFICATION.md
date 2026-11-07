@@ -95,107 +95,171 @@ and a Python Golden Model.
 
 ## 5. DSP Design Parameters
 
-Audio sample width: 16-bit signed
+The equalizer uses a 48 kHz sampling rate and
+processes signed 16-bit audio samples.
 
-Number of bands: 3
+The system has three FIR filters:
 
-Filter types:
-- Bass: Low-Pass FIR
-- Mid: Band-Pass FIR
-- Treble: High-Pass FIR
+- Bass: Low-pass filter, 200 Hz cutoff
+- Mid: Band-pass filter, 250–3800 Hz
+- Treble: High-pass filter, 4000 Hz cutoff
 
-Sample rate: TBD
+Each filter has 31 taps and uses a Hamming window.
 
-Bass cutoff frequency: TBD
+The FIR coefficients are stored as signed 16-bit
+Q1.15 values. The RTL uses a 37-bit accumulator,
+followed by a right shift of 15 bits and
+16-bit saturation.
 
-Mid passband frequencies: TBD
+Each frequency band has a separate Q8.8 gain.
+A gain value of 256 represents unity gain.
 
-Treble cutoff frequency: TBD
+The three outputs are added using an 18-bit
+mixer. The final result is saturated to
+the signed 16-bit range.
 
-FIR tap count: TBD
+These cutoff values are design parameters.
+The actual frequency responses depend on
+the 31-tap FIR coefficients.
 
-Coefficient quantization: TBD
-
-Fixed-point arithmetic rules: TBD
-
-Gain format: TBD
-
-The DSP designer must finalize these values
-after evaluating filter frequency responses.
 
 ## 6. RTL Interface
 
-Suggested inputs:
+The top-level module is `audio_equalizer_top`.
 
-- clk
-- rst_n
-- sample_valid
-- sample_in[15:0] (signed)
-- gain_bass
-- gain_mid
-- gain_treble
+### Input Signals
 
-Suggested outputs:
+| Signal | Width | Description |
+|---|---|---|
+| clk | 1 bit | System clock |
+| rst | 1 bit | Synchronous active-high reset |
+| valid_in | 1 bit | Input sample valid signal |
+| sample_in | 16 bits | Signed audio sample |
+| gain_bass_q8_8 | 16 bits | Signed Bass gain (Q8.8) |
+| gain_mid_q8_8 | 16 bits | Signed Mid gain (Q8.8) |
+| gain_treble_q8_8 | 16 bits | Signed Treble gain (Q8.8) |
 
-- sample_out[15:0] (signed)
-- out_valid
+### Output Signals
 
-The exact width of gain controls,
-pipeline latency, and signal timing
-must be agreed upon before RTL integration.
+| Signal | Width | Description |
+|---|---|---|
+| sample_out | 16 bits | Signed processed audio sample |
+| valid_out | 1 bit | Output sample valid signal |
 
-## 7. Golden Model Requirements
+### Timing and Reset
 
-The Golden Model shall:
+The FIR filters operate on the rising edge of `clk`.
 
-- Use the same quantized FIR coefficients as RTL.
-- Match the RTL fixed-point arithmetic rules.
-- Implement all three filters.
-- Implement independent gain controls.
-- Implement mixer and saturation.
-- Generate expected output samples.
-- Support multiple test scenarios.
+When `rst = 1`, the FIR history, output registers,
+and valid flags are cleared at the next rising edge.
 
-The Golden Model shall provide a bit-exact
-fixed-point reference for RTL verification.
+When `valid_in = 1`, a new input sample is accepted.
+The FIR outputs and `valid_out` are updated at that
+rising edge.
 
-## 8. Testbench Requirements
+When `valid_in = 0`, the sample history is held and
+`valid_out` becomes 0.
 
-The testbench shall:
+Gain control, mixing, and final saturation are
+combinational. The output is considered valid only
+when `valid_out = 1`.
 
-- Generate clock and reset.
-- Apply input samples to the DUT.
-- Apply gain settings.
-- Load Golden Model expected outputs.
-- Capture RTL output on out_valid.
-- Compare actual and expected samples.
-- Report PASS/FAIL for each test case.
-- Save verification logs.
+## 7. Golden Model
 
-## 9. Verification Test Cases
+The Golden Model is implemented in Python in
+`dsp/golden_model.py`.
 
-TC01: Zero input
+It uses the same FIR coefficients as the RTL,
+stored in `dsp/coefficients/`.
 
-TC02: Bass-frequency sine wave
+The processing steps are:
 
-TC03: Mid-frequency sine wave
+1. Read signed 16-bit input samples from
+   `data/input_samples.mem`.
+2. Load the 31 Q1.15 coefficients for each filter.
+3. Calculate the FIR output for Bass, Mid, and Treble.
+4. Shift each FIR accumulator right by 15 bits
+   and apply 16-bit saturation.
+5. Apply the three Q8.8 gains.
+6. Add the three band outputs.
+7. Apply final 16-bit saturation.
+8. Save the results to `data/expected_output.mem`.
 
-TC04: Treble-frequency sine wave
+The model uses integer arithmetic to match
+the RTL fixed-point operations.
 
-TC05: Multi-tone audio input
+The current reference data contains 1010 samples.
+The default gain is 1.0 for all three bands.
 
-TC06: Bass gain boost
+The model processes consecutive accepted samples.
+Reset and valid-gap timing are checked separately
+by the Verilog Testbench.
 
-TC07: Mid gain boost
+The expected output file is used to compare
+the RTL results with the Python reference.
 
-TC08: Treble gain boost
 
-TC09: Output saturation
 
-TC10: Reset operation
+## 8. Testbench and Verification
 
-Test frequencies must be selected after
-the sample rate and bands are finalized.
+The Verilog Testbench is implemented in
+`tb/tb_audio_equalizer.v`.
+
+It checks the RTL outputs against the Python
+Golden Model using the same input samples
+and FIR coefficients.
+
+The Testbench performs the following steps:
+
+1. Generate clock and reset signals.
+2. Read input samples from `data/input_samples.mem`.
+3. Read reference outputs from
+   `data/expected_output.mem`.
+4. Apply samples and gain values to the RTL.
+5. Check `valid_out` and compare output samples
+   with the expected values.
+6. Count mismatches and report PASS or FAIL.
+7. Save the comparison results and simulation logs.
+
+The current tests use unity gain (256 in Q8.8)
+for all three frequency bands.
+
+The outputs are compared as signed 16-bit
+fixed-point values.
+
+## 9. Verification Results
+
+The project was tested using ModelSim
+Intel FPGA Edition 2020.1.
+
+| Test | Compared Samples | Mismatches | Result |
+|---|---:|---:|---|
+| Continuous input | 1010 | 0 | PASS |
+| Input with valid gaps | 1010 | 0 | PASS |
+| Reset recovery | 1 | 0 | PASS |
+| Total | 2021 | 0 | PASS |
+
+The continuous-input test checks the output
+for every accepted audio sample.
+
+The valid-gap test inserts idle clock cycles
+between selected samples and checks that
+the FIR history is preserved.
+
+The reset test checks that the stored FIR
+history and output registers are cleared.
+
+All 2021 compared samples matched the
+Golden Model reference data.
+
+The current verification is limited to
+unity-gain operation. Additional gain values,
+clipping cases, and more boundary conditions
+can be tested in future work.
+
+The saved simulation results are located in
+`simulation/results/`.
+
 
 ## 10. Project Scope
 
@@ -257,8 +321,8 @@ Week 6:
 - Complete report
 
 Week 7:
-- Final review
-- Submission and presentation
+- Final project review
+- Submit source code, simulation results, and report
 
 ## 13. Acceptance Criteria
 
