@@ -2,7 +2,7 @@ Reading pref.tcl
 
 # 2020.1
 
-# vsim -c -do "run -all; quit -f" work.tb_audio_equalizer 
+# vsim -c -do "run -all; quit -f" work.tb_audio_equalizer
 # Start time: 15:51:02 on Nov 07,2026
 # Loading work.tb_audio_equalizer
 # Loading work.audio_equalizer_top
