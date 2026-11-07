@@ -156,8 +156,8 @@ Digital-Audio-Equalizer-Verilog/
 ├── data/
 │   ├── input_samples.mem
 │   ├── expected_output.mem
-│   ├── test_config.md
-│   └── generate_test_data.py
+│   ├── vectors.txt
+│   └── vectors_gen.py
 │
 ├── rtl/
 │   ├── audio_equalizer_top.v
@@ -173,8 +173,8 @@ Digital-Audio-Equalizer-Verilog/
 │   └── tb_audio_equalizer.v
 │
 ├── docs/
-│   ├── RTL_INTERFACE_CONTRACT.md
-│   └── FINAL_REPORT.md
+│   ├── PROJECT_SPECIFICATION.md
+│   └── REPORT_DRAFT.md
 │
 ├── results/
 ├── simulation/
@@ -365,7 +365,7 @@ The testbench uses the generated input and expected output files to check the RT
 
 ## 9. Verification Test Plan
 
-The verification environment covers the following scenarios:
+The following table lists verification scenarios, including additional tests planned for future coverage:
 
 | Test Case | Verification Purpose |
 |---|---|
@@ -395,7 +395,10 @@ The scoreboard checks:
 - Missing or unexpected output transactions.
 - Unknown output values.
 
-The verification fixture contains 2,114 stimulus cycles, including 1,777 accepted samples.
+The saved ModelSim simulation compared 1,010 continuous samples, 1,010 samples with valid gaps, and one reset-recovery sample. All 2,021 comparisons passed with zero mismatches.
+
+The tested gain configuration was unity gain (Q8.8 = 256) for all three frequency bands.
+
 
 ---
 
@@ -424,8 +427,8 @@ Potential future improvements include:
 
 Additional project documentation:
 
-- [RTL Interface Contract](docs/RTL_INTERFACE_CONTRACT.md)
-- [Final Project Report](docs/FINAL_REPORT.md)
+- [Project Specification](docs/PROJECT_SPECIFICATION.md)
+- [Project Report](docs/REPORT_DRAFT.md)
 - [Verification Documentation](Verification.md)
 
 ---
