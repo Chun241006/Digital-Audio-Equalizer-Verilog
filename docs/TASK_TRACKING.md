@@ -45,7 +45,7 @@ Project Duration: Week 5 - Week 7
 |---|---|---|
 | Leader | Monitor team progress | TODO |
 | Leader | Integrate final report | TODO |
-| Leader | Prepare presentation | TODO |
+| Leader | Prepare final report file | TODO |
 | Member 1 | Finalize Golden Model | TODO |
 | Member 1 | Generate frequency response plots | TODO |
 | Member 1 | Write DSP and Golden Model report sections | TODO |
@@ -60,7 +60,7 @@ Project Duration: Week 5 - Week 7
 
 - Final project review
 - Report submission
-- Presentation
+- Verify final report and submission files
 - Demonstration
 
 ## 5. Status Definitions
@@ -120,7 +120,7 @@ The weekly tables above represent the original project plan. The following table
 | Project report draft | DONE | docs/REPORT_DRAFT.md |
 | Final report review | IN PROGRESS | Documentation review |
 | Editable sources for all diagrams | IN PROGRESS | Some PNG diagrams have no Draw.io source |
-| Presentation preparation | TODO | Not yet completed |
+| Final report DOCX | TODO | Export and review final submission report |
 | Physical FPGA implementation | NOT IN SCOPE | RTL simulation project |
 
 The two recorded ModelSim verification runs contain 9091 comparisons with zero mismatches.
