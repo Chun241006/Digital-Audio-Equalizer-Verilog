@@ -45,7 +45,7 @@ Project Duration: Week 5 - Week 7
 |---|---|---|
 | Leader | Monitor team progress | TODO |
 | Leader | Integrate final report | TODO |
-| Leader | Prepare presentation | TODO |
+| Leader | Prepare final report file | TODO |
 | Member 1 | Finalize Golden Model | TODO |
 | Member 1 | Generate frequency response plots | TODO |
 | Member 1 | Write DSP and Golden Model report sections | TODO |
@@ -60,7 +60,7 @@ Project Duration: Week 5 - Week 7
 
 - Final project review
 - Report submission
-- Presentation
+- Verify final report and submission files
 - Demonstration
 
 ## 5. Status Definitions
@@ -100,3 +100,29 @@ to Members 1 and 2.
 
 Leader reviews progress and resolves
 integration issues.
+
+
+
+## 8. Final Project Status - 07/11/2026
+
+The weekly tables above represent the original project plan. The following table summarizes the current repository deliverables.
+
+| Deliverable | Status | Evidence |
+|---|---|---|
+| System specification | DONE | docs/PROJECT_SPECIFICATION.md |
+| System architecture | DONE | docs/ARCHITECTURE.drawio |
+| FIR coefficient generation | DONE | dsp/coeff_gen.py |
+| Python Golden Model | DONE | dsp/golden_model.py |
+| Verilog RTL implementation | DONE | rtl/ |
+| Original RTL verification | PASS | 2021 comparisons, 0 errors |
+| Gain verification | PASS | 7070 comparisons, 0 errors |
+| Verification diagrams | DONE | docs/diagrams/ and diagrams/ |
+| Project report draft | DONE | docs/REPORT_DRAFT.md |
+| Final report review | IN PROGRESS | Documentation review |
+| Diagram PNG files | DONE | docs/diagram/, docs/diagrams/, diagrams/ |
+| Final report DOCX | DONE | docs/DGT302_Final_Report.docx |
+| Physical FPGA implementation | NOT IN SCOPE | RTL simulation project |
+
+The two recorded ModelSim verification runs contain 9091 comparisons with zero mismatches.
+
+The project has not been verified on physical FPGA hardware. Dynamic gain changes and exhaustive boundary-value combinations remain future verification work.
