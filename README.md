@@ -419,12 +419,11 @@ The gain test results are saved in `simulation/results/gain_test_results.txt`. D
 ## 10. Limitations and Future Improvements
 
 The current project has several limitations:
-
-- The default coefficient files are synthetic verification fixtures and do not establish final audio frequency response or crossover quality.
-- The design has not been claimed as a physically verified FPGA or ASIC implementation.
-- Actual DSP performance requires validation using approved filter coefficients.
-- Functional verification must be completed with the intended simulator before final project sign-off.
-- The current architecture focuses on fixed-point digital signal processing rather than a complete audio playback system.
+- The three 31-tap FIR filters have limited frequency separation, especially between the Bass and Mid bands.
+- The filter coefficients were generated using the Hamming window method at a 48 kHz sampling rate. Further filter optimization is needed to improve band separation and audio quality.
+- The RTL has passed the recorded ModelSim simulations, but dynamic gain changes and exhaustive boundary-value combinations remain untested.
+- The design has not been implemented or verified on physical FPGA hardware.
+- The project does not include a real audio input/output interface.
 
 Potential future improvements include:
 
