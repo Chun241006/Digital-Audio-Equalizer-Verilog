@@ -25,9 +25,9 @@ reference output samples using fixed-point
 arithmetic. A Verilog Testbench then compares
 the RTL results against these reference values.
 
-The saved ModelSim simulation shows 2021
-comparisons with zero mismatches for the tested
-unity-gain configuration.
+The original ModelSim simulation completed 2021 output comparisons with zero mismatches. An additional gain verification testbench completed 7070 comparisons across seven fixed gain configurations, also with zero mismatches.
+
+Together, the two simulation runs provide 9091 recorded comparisons with no mismatches.
 
 The results demonstrate correct fixed-point
 processing for the tested inputs. However,
@@ -1118,29 +1118,46 @@ All 2021 compared output samples
 matched the Golden Model reference
 for the tested configuration.
 
+
+#### 7.5.1 Additional Gain Verification Results
+
+A separate Gain Verification Testbench was executed using ModelSim Intel FPGA Edition 2020.1 on November 7, 2026.
+
+Seven fixed gain configurations were tested against the Python Golden Model:
+
+| Gain Configuration | Comparisons | Errors | Result |
+|---|---:|---:|---|
+| Bass only | 1010 | 0 | PASS |
+| Mid only | 1010 | 0 | PASS |
+| Treble only | 1010 | 0 | PASS |
+| Mute all | 1010 | 0 | PASS |
+| Fractional gains | 1010 | 0 | PASS |
+| Negative Bass gain | 1010 | 0 | PASS |
+| High gains | 1010 | 0 | PASS |
+| Total | 7070 | 0 | PASS |
+
+The ModelSim console reported:
+
+```text
+GAIN SUMMARY compared=7070 errors=0
+GAIN VERIFICATION PASS
+```
+
+Together with the original 2021 comparisons, the project now has 9091 recorded comparisons without mismatches.
+
+The new testbench is `tb/tb_gain_verification.v`, and its results are stored in `simulation/results/gain_test_results.txt`.
+
+
 ### 7.6 Verification Limitations
 
-The current Testbench uses unity gain
-for all three frequency bands.
 
-It does not separately verify:
+The original testbench verifies continuous samples, valid gaps, and reset recovery using unity gain.
 
-- Different Bass, Mid, and Treble gains.
-- Mute operation using zero gain.
-- Negative gain values.
-- Fractional or high gain values.
-- Every possible input combination.
+The additional Gain Verification Testbench covers seven fixed gain configurations, including isolated frequency bands, mute, fractional gains, negative Bass gain, and high gains.
 
-The supplied samples do exercise
-final output saturation, but they do
-not cover every saturation condition.
+However, the current verification does not exhaustively cover all possible input and gain combinations. Gain changes during active sample processing have not been tested separately.
 
-The saved PASS result therefore confirms
-correct operation for the tested data,
-gain settings, and timing scenarios.
-
-Additional gain and boundary-value tests
-would improve verification coverage.
+The recorded PASS results confirm numerical agreement between the RTL and Python Golden Model for the tested configurations. They do not establish complete functional coverage or physical FPGA implementation.
 
 
 
@@ -1226,6 +1243,12 @@ sample is accepted.
 The reset-recovery test confirms that the
 stored filter history is cleared by reset.
 
+An additional ModelSim gain verification run on November 7, 2026 completed 7070 comparisons across seven fixed gain configurations, with zero mismatches.
+
+Combined with the original 2021 comparisons, the recorded RTL verification evidence includes 9091 comparisons with zero mismatches.
+
+These results support the correctness of the fixed-point gain control, per-band saturation, and mixing behavior for the tested configurations.
+
 ### 8.4 Saturation Behavior
 
 The equalizer uses saturation after FIR
@@ -1264,10 +1287,7 @@ provide sharp frequency separation.
 The Bass and Mid responses overlap at
 lower frequencies.
 
-Second, the current Testbench mainly checks
-unity-gain operation. Other gain settings,
-such as mute, fractional gain, and negative
-gain, have not been separately verified.
+Second, although seven fixed gain configurations have now passed RTL verification, dynamic gain changes during active sample processing and exhaustive boundary-value combinations have not been separately tested.
 
 Third, the design has only been tested
 through RTL simulation. It has not been
@@ -1315,9 +1335,14 @@ reference outputs using the same fixed-point
 arithmetic as the RTL.
 
 The Verilog design was tested using ModelSim.
-The saved simulation results show 2021 output
-comparisons with zero mismatches for the
-tested unity-gain configuration.
+
+The Verilog design was tested using ModelSim Intel FPGA Edition 2020.1.
+
+The original verification completed 2021 comparisons with zero mismatches, covering continuous input, valid gaps, and reset recovery.
+
+The additional gain verification completed 7070 comparisons with zero mismatches across seven fixed gain configurations.
+
+In total, the recorded verification includes 9091 output comparisons without mismatches.
 
 The project demonstrates FIR filtering,
 fixed-point arithmetic, gain control, mixing,
@@ -1328,9 +1353,7 @@ frequency separation, especially between
 the Bass and Mid bands. The Testbench also
 does not cover all possible gain settings.
 
-Future improvements could include longer
-FIR filters, additional gain test cases,
-and implementation on an FPGA board.
+Future improvements could include longer FIR filters, dynamic gain-change verification, more extensive boundary-value tests, and implementation on an FPGA board.
 
 Overall, the project achieved its main
 simulation and verification objectives

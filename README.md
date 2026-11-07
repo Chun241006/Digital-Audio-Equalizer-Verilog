@@ -399,6 +399,20 @@ The saved ModelSim simulation compared 1,010 continuous samples, 1,010 samples w
 
 The tested gain configuration was unity gain (Q8.8 = 256) for all three frequency bands.
 
+### Additional Gain Verification
+
+A separate ModelSim 2020.1 testbench (`tb/tb_gain_verification.v`) was executed on November 7, 2026.
+
+Seven gain configurations were verified: Bass only, Mid only, Treble only, all bands muted, fractional gains, negative Bass gain, and high gains.
+
+Each case compared 1,010 output samples against the Python Golden Model.
+
+- Gain verification: 7,070 comparisons, 0 mismatches.
+- Original verification: 2,021 comparisons, 0 mismatches.
+- Combined recorded comparisons: 9,091, with no mismatches.
+
+The gain test results are saved in `simulation/results/gain_test_results.txt`. Dynamic gain changes during active sample processing remain outside the current test coverage.
+
 
 ---
 
