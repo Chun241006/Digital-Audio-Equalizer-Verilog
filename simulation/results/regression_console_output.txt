@@ -1,0 +1,24 @@
+Reading pref.tcl
+
+# 2020.1
+
+# vsim -c -do "run -all; quit -f" work.tb_audio_equalizer
+# Start time: 15:51:02 on Nov 07,2026
+# Loading work.tb_audio_equalizer
+# Loading work.audio_equalizer_top
+# Loading work.bass_filter
+# Loading work.fir_filter
+# Loading work.mid_filter
+# Loading work.treble_filter
+# Loading work.gain_control
+# Loading work.mixer
+# Loading work.saturation
+# run -all
+# TEST 0: samples=1010 errors=0
+# TEST 1: samples=1010 errors=0
+# SUMMARY compared=2021 errors=0
+# OVERALL PASS
+# ** Note: $finish    : tb/tb_audio_equalizer.v(113)
+#    Time: 21800 ns  Iteration: 1  Instance: /tb_audio_equalizer
+# End time: 15:51:04 on Nov 07,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0

@@ -1,0 +1,9 @@
+CASE 0: samples=1010 errors=0
+CASE 1: samples=1010 errors=0
+CASE 2: samples=1010 errors=0
+CASE 3: samples=1010 errors=0
+CASE 4: samples=1010 errors=0
+CASE 5: samples=1010 errors=0
+CASE 6: samples=1010 errors=0
+GAIN SUMMARY compared=7070 errors=0
+GAIN VERIFICATION PASS
