@@ -119,8 +119,8 @@ The weekly tables above represent the original project plan. The following table
 | Verification diagrams | DONE | docs/diagrams/ and diagrams/ |
 | Project report draft | DONE | docs/REPORT_DRAFT.md |
 | Final report review | IN PROGRESS | Documentation review |
-| Editable sources for all diagrams | IN PROGRESS | Some PNG diagrams have no Draw.io source |
-| Final report DOCX | TODO | Export and review final submission report |
+| Diagram PNG files | DONE | docs/diagram/, docs/diagrams/, diagrams/ |
+| Final report DOCX | DONE | docs/DGT302_Final_Report.docx |
 | Physical FPGA implementation | NOT IN SCOPE | RTL simulation project |
 
 The two recorded ModelSim verification runs contain 9091 comparisons with zero mismatches.
